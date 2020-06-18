@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import AddTodoForm from 'components/AddTodoForm/AddTodoForm';
 import { useDispatch } from 'react-redux';
-import { addTodo } from 'redux/reducers/todosReducer';
+import { addTodo, addTodoAsync } from 'redux/reducers/todosReducer';
 
 export default function AddTodoFormContainer() {
   const dispatch = useDispatch();
@@ -16,10 +16,23 @@ export default function AddTodoFormContainer() {
   const handleAddFormSubmit = useCallback(
     (e) => {
       e.preventDefault();
+
       if (inputValue.trim()) {
         dispatch(addTodo(inputValue));
         setInputValue('');
       }
+    },
+    [dispatch, inputValue]
+  );
+
+  const handleAddFormSubmitAsync = useCallback(
+    (e) => {
+      e.preventDefault();
+      // if (inputValue.trim()) {
+      //   dispatch(addTodo(inputValue));
+      //   setInputValue('');
+      // }
+      dispatch(addTodoAsync(inputValue));
     },
     [dispatch, inputValue]
   );
@@ -29,6 +42,7 @@ export default function AddTodoFormContainer() {
       inputValue={inputValue}
       onInputChange={handleInputChange}
       onSubmit={handleAddFormSubmit}
+      onSubmitAsync={handleAddFormSubmitAsync}
     />
   );
 }
